@@ -1,0 +1,240 @@
+import pandas as pd 
+import numpy as np 
+import pickle
+import tkinter as tk
+import pickleshare
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import ExtraTreesRegressor
+# Load the Random Forest model
+#file_name = "rf_final.pkl"
+#rf_model_loaded = pickle.load(open(file_name, "rb"))
+
+# Load the model from the pickle file
+with open("etr_hpc.pkl", "rb") as file:
+    rfr_loaded = pickle.load(file)
+# tkinter GUI
+root = tk.Tk() 
+root.title("Prediction of splitting tensile strength of HPC")
+
+canvas1 = tk.Canvas(root, width=550, height=550)
+canvas1.configure(background='#e9ecef')
+canvas1.pack()
+
+# ... (rest of the GUI code)
+#adding a label to the root window
+label0 = tk.Label(root, text='Developed by Er. Rakesh Kumar*',font=('Futura Md Bt', 13, 'bold'),bg='#e9ecef')
+canvas1.create_window(20, 20, anchor="w", window=label0)
+label_phd = tk.Label(root, text='*NIT Patna',font=('Futura Md Bt',12),bg='#e9ecef')
+canvas1.create_window(20, 50, anchor="w",window=label_phd)
+label_city = tk.Label(root, text='India',font=('Futura Md Bt',12),bg='#e9ecef')
+canvas1.create_window(20, 80, anchor="w",window=label_city)
+label_mail = tk.Label(root, text='Email: rakeshk.ph21.ce@nitp.ac.in',font=('Futura Md Bt',12),bg='#e9ecef')
+canvas1.create_window(20, 70, anchor="w",window=label_mail)
+
+
+label_input = tk.Label(root, text='Input Parameters',font=('Futura Md Bt',12,'bold','italic','underline'),bg='#e9ecef')
+canvas1.create_window(20, 90, anchor="w",window=label_input)
+
+# New_Normal_Stress label and input box
+label1 = tk.Label(root, text='fce, MPa : ',font=('Futura Md Bt',12),bg='#e9ecef')
+canvas1.create_window(20, 120, anchor="w",window=label1)
+
+entry1 = tk.Entry (root) # create 1st entry box
+canvas1.create_window(480, 120, window=entry1)
+
+# New_D50 label and input box
+label2 = tk.Label(root, text='fct, MPa : ',font=('Futura Md Bt',12),bg='#e9ecef')
+canvas1.create_window(20, 150, anchor="w",window=label2)
+
+entry2 = tk.Entry (root) # create 2nd entry box
+canvas1.create_window(480, 150, window=entry2)
+
+# New_FC label and input box
+label3 = tk.Label(root, text='age, days : ',font=('Futura Md Bt',12),bg='#e9ecef')
+canvas1.create_window(20, 180, anchor="w",window=label3)
+
+entry3 = tk.Entry (root) # create 3rd entry box
+canvas1.create_window(480, 180, window=entry3)
+
+# New_Length of geogrid label and input box
+label4 = tk.Label(root, text='dmax, mm : ',font=('Futura Md Bt',12),bg='#e9ecef')
+canvas1.create_window(20, 210, anchor="w",window=label4)
+
+entry4 = tk.Entry (root) # create 4th entry box
+canvas1.create_window(480, 210, window=entry4)
+
+# New_Spacing between geogrid longitudinal members label and input box
+label5 = tk.Label(root, text='stone powder, % : ',font=('Futura Md Bt',12),bg='#e9ecef')
+canvas1.create_window(20, 240, anchor="w",window=label5)
+
+entry5 = tk.Entry (root) # create 5th entry box
+canvas1.create_window(480, 240, window=entry5)
+
+# New_Spacing between geogrid transverse members label and input box
+label6 = tk.Label(root, text='fms : ',font=('Futura Md Bt',12),bg='#e9ecef')
+canvas1.create_window(20, 270, anchor="w",window=label6)
+
+entry6 = tk.Entry (root) # create 6th entry box
+canvas1.create_window(480, 270, window=entry6)
+
+# New_Ultimate Tensile Strength of Geogrid label and input box
+label7 = tk.Label(root, text='w/b : ',font=('Futura Md Bt',12),bg='#e9ecef')
+canvas1.create_window(20, 300, anchor="w",window=label7)
+
+entry7 = tk.Entry (root) # create 7th entry box
+canvas1.create_window(480, 300, window=entry7)
+
+# New_Ultimate Tensile Strength of Geogrid label and input box
+label8 = tk.Label(root, text='w/c : ',font=('Futura Md Bt',12),bg='#e9ecef')
+canvas1.create_window(20, 330, anchor="w",window=label8)
+
+entry8 = tk.Entry (root) # create 7th entry box
+canvas1.create_window(480, 330, window=entry8)
+
+# New_Ultimate Tensile Strength of Geogrid label and input box
+label9 = tk.Label(root, text='water, kg/m³ : ',font=('Futura Md Bt',12),bg='#e9ecef')
+canvas1.create_window(20, 360, anchor="w",window=label9)
+
+entry9 = tk.Entry (root) # create 7th entry box
+canvas1.create_window(480, 360, window=entry9)
+
+# New_Ultimate Tensile Strength of Geogrid label and input box
+label10 = tk.Label(root, text='sand ratio, % : ',font=('Futura Md Bt',12),bg='#e9ecef')
+canvas1.create_window(20, 390, anchor="w",window=label10)
+
+entry10 = tk.Entry (root) # create 7th entry box
+canvas1.create_window(480, 390, window=entry10)
+
+# New_Ultimate Tensile Strength of Geogrid label and input box
+label11 = tk.Label(root, text='slump, mm : ',font=('Futura Md Bt',12),bg='#e9ecef')
+canvas1.create_window(20, 420, anchor="w",window=label11)
+
+entry11 = tk.Entry (root) # create 7th entry box
+canvas1.create_window(480, 420, window=entry11)
+
+# New_Ultimate Tensile Strength of Geogrid label and input box
+label12 = tk.Label(root, text='fcu, MPa : ',font=('Futura Md Bt',12),bg='#e9ecef')
+canvas1.create_window(20, 450, anchor="w",window=label12)
+
+entry12 = tk.Entry (root) # create 7th entry box
+canvas1.create_window(480, 450, window=entry12)
+
+
+
+label0000 = tk.Label(root, text='Output',font=('Futura Md Bt',12,'bold','italic','underline'),bg='#e9ecef')
+canvas1.create_window(20, 480, anchor="w",window=label0000)
+
+label_out = tk.Label(root, text='Splitting tensile strength, MPa',font=('Futura Md Bt',12),bg='#e9ecef')
+canvas1.create_window(20, 520, anchor="w",window=label_out)
+
+#entry_out = tk.Entry (root) # create box for output
+#canvas1.create_window(480, 450, window=entry_out)
+
+def values(): 
+    global New_fce # our 1st input variable
+    New_fce = float(entry1.get())  
+    
+    global New_fct # our 2nd input variable
+    New_fct = float(entry2.get())
+
+    global New_age # our 3rd input variable
+    New_age = float(entry3.get()) 
+
+    global New_dmax # our 4th input variable
+    New_dmax = float(entry4.get()) 
+
+    global New_stonepowder # our 5th input variable
+    New_stonepowder = float(entry5.get()) 
+
+    global New_fms # our 6th input variable
+    New_fms = float(entry6.get()) 
+
+    global New_wb # our 7th input variable
+    New_wb = float(entry7.get()) 
+    
+    global New_wc # our 8th input variable
+    New_wc = float(entry8.get()) 
+    
+    global New_water # our 8th input variable
+    New_water = float(entry9.get()) 
+    
+    global New_sandratio # our 8th input variable
+    New_sandratio = float(entry10.get()) 
+    
+    global New_slump # our 8th input variable
+    New_slump = float(entry11.get()) 
+    
+    global New_fcu # our 8th input variable
+    New_fcu = float(entry12.get()) 
+    
+    import pandas as pd
+import numpy as np
+import pickle
+import tkinter as tk
+from tkinter import messagebox
+
+# ... (rest of the code)
+
+def values(): 
+    # Validate and get the values from the entry boxes
+    input_values = []
+    entry_boxes = [entry1, entry2, entry3, entry4, entry5, entry6, entry7, entry8, entry9, entry10, entry11,entry12]
+
+    for entry_box in entry_boxes:
+        value = entry_box.get().strip()
+        if value:
+            try:
+                input_values.append(float(value))
+            except ValueError:
+                # If the value is not a valid float, show an error message or handle it as you prefer
+                messagebox.showerror("Error", "Invalid input. Please enter valid numeric values.")
+                return
+        else:
+            # If any entry box is empty, show an error message or handle it as you prefer
+            messagebox.showerror("Error", "Please fill in all the input fields.")
+            return
+
+    # If all input values are valid, proceed with prediction
+    DataFrame = pd.read_excel("F:/New folder/split tensile revised/split_tensile_webtool.xlsx", header=[0])
+    data = np.array([input_values])
+    Input_data = pd.DataFrame(data, columns=['fce', 'fct', 'age', 'dmax', 'stonepowder', 'fms', 'wb','wc','water','sandratio','slump','fcu'])
+
+    # Predict using the loaded Random Forest model
+    Prediction_result = np.around(rfr_loaded.predict(Input_data), 2)
+
+    # Display the prediction on the GUI
+    label_Prediction = tk.Label(root, text=str(Prediction_result).lstrip('[').rstrip(']'), bg='white')
+    canvas1.create_window(450, 520, anchor="w", window=label_Prediction)
+
+# ... (rest of the code)
+
+    # If all input values are valid, proceed with prediction
+    DataFrame = pd.read_excel("F:/New folder/split tensile revised/split_tensile_webtool.xlsx", header=[0])
+    data = np.array([input_values])
+    Input_data = pd.DataFrame(data, columns=['fce', 'fct', 'age', 'dmax', 'stonepowder', 'fms', 'wb','wc','water','sandratio','slump','fcu'])
+
+    # Predict using the loaded Random Forest model
+    Prediction_result = np.around(rfr_loaded.predict(Input_data), 2)
+
+    # Display the prediction on the GUI
+    label_Prediction = tk.Label(root, text=str(Prediction_result).lstrip('[').rstrip(']'), bg='white')
+    canvas1.create_window(450, 520, anchor="w", window=label_Prediction)
+
+    DataFrame = pd.read_excel("F:/New folder/split tensile revised/split_tensile_webtool.xlsx",header = [0])
+    data = np.array([[New_fce, New_fct, New_age, New_dmax, New_stonepowder, New_fms,New_wb,New_wc,New_water,New_sandratio,New_slump,New_fcu]])
+    Input_data = pd.DataFrame(data, columns=['fce', 'fct', 'age', 'dmax', 'stonepowder', 'fms', 'wb','wc','water','sandratio','slump','fcu'])
+  
+    # Predict using the loaded Random Forest model
+    #y_pred = rfr_loaded.predict(X_new_data)
+    Prediction_result = np.around(rfr_loaded.predict(Input_data),2)
+    # Predict using the loaded Random Forest model
+    #Prediction_result = np.around(rfr_loaded.predict(Input_data), 2)
+
+    # Display the prediction on the GUI
+    label_Prediction = tk.Label(root, text=str(Prediction_result).lstrip('[').rstrip(']'), bg='white')
+    canvas1.create_window(450, 520, anchor="w", window=label_Prediction)
+
+# ... (rest of the GUI code)
+button1 = tk.Button (root, text= 'Predict',command=values, bg='white') # button to call the 'values' command above 
+canvas1.create_window(450, 480, anchor="w",window=button1)
+root.mainloop()
